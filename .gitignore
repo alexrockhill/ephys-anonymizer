@@ -1,6 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 .DS_Store
+video_anonymize/tests/data/test_vid-anon.avi
 *.py[cod]
 *$py.class
 

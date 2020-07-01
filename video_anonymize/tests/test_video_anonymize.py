@@ -9,7 +9,6 @@ For each supported file format, implement a test.
 
 import os.path as op
 import cv2
-# TO DO: add tmp for anon file saved out
 
 import video_anonymize
 
