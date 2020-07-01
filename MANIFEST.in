@@ -1,0 +1,10 @@
+include *.py
+include *.txt
+include *.xml
+include LICENSE
+recursive-include video_anonymize *.DS_Store
+recursive-include video_anonymize *.avi
+recursive-include video_anonymize *.mov
+recursive-include video_anonymize *.mp4
+recursive-include video_anonymize *.py
+recursive-include video_anonymize *.tsv
