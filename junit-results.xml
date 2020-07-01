@@ -1,1 +1,32 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite errors="0" failures="0" hostname="Alexs-MacBook-Pro.local" name="pytest" skipped="0" tests="1" time="39.223" timestamp="2020-06-30T18:51:04.835571"><testcase classname="video_anonymize.tests.test_video_anonymize" file="video_anonymize/tests/test_video_anonymize.py" line="25" name="test_video_anonymize" time="38.566"></testcase></testsuite></testsuites>
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite errors="0" failures="1" hostname="Alexs-MacBook-Pro.local" name="pytest" skipped="0" tests="1" time="3.656" timestamp="2020-06-30T19:19:56.627347"><testcase classname="video_anonymize.tests.test_video_anonymize" file="video_anonymize/tests/test_video_anonymize.py" line="25" name="test_video_anonymize" time="2.892"><failure message="ValueError: Face not anonymized for .mp4">def test_video_anonymize():
+        for fname in (&apos;test_vid.mp4&apos;, &apos;test_vid.mov&apos;, &apos;test_vid.avi&apos;):
+            ext = op.splitext(fname)[-1]
+            out_fname = video_anonymize.video_anonymize(
+                op.join(basepath, fname), show=False, overwrite=True)
+            cap = cv2.VideoCapture(out_fname)
+            i = 0
+            ret, frame = cap.read()
+            while ret:
+                # &lt; 2 because mov is imprecise
+                if any(frame[face_data[&apos;y&apos;][i], face_data[&apos;x&apos;][i]] &lt; 2):
+&gt;                   raise ValueError(&apos;Face not anonymized for {}&apos;.format(ext))
+E                   ValueError: Face not anonymized for .mp4
+
+cap        = &lt;VideoCapture 0x7fe111ad00f0&gt;
+ext        = &apos;.mp4&apos;
+fname      = &apos;test_vid.mp4&apos;
+frame      = array([[[ 59,  73,  83],
+        [ 59,  73,  83],
+        [ 59,  73,  83],
+        ...,
+        [102, 138, 173],
+     ...[ 24,  49,  87],
+        ...,
+        [ 14,  21,  42],
+        [ 19,  30,  50],
+        [ 25,  36,  56]]], dtype=uint8)
+i          = 0
+out_fname  = &apos;/Users/alexrockhill/projects/video-anonymize/video_anonymize/tests/data/test_vid-anon.avi&apos;
+ret        = True
+
+video_anonymize/tests/test_video_anonymize.py:37: ValueError</failure></testcase></testsuite></testsuites>

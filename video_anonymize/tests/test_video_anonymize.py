@@ -25,15 +25,17 @@ with open(op.join(basepath, 'face_data.tsv'), 'r') as fid:
 
 def test_video_anonymize():
     for fname in ('test_vid.mp4', 'test_vid.mov', 'test_vid.avi'):
+        ext = op.splitext(fname)[-1]
         out_fname = video_anonymize.video_anonymize(
             op.join(basepath, fname), show=False, overwrite=True)
         cap = cv2.VideoCapture(out_fname)
         i = 0
         ret, frame = cap.read()
         while ret:
-            if any(frame[face_data['y'][i], face_data['x'][i]] != 0):
-                raise ValueError('Face not anonymized for {}'.format(
-                                 op.splitext(fname)[-1]))
+            # > 1 because mov is imprecise
+            if any(frame[face_data['y'][i], face_data['x'][i]] > 1):
+                raise ValueError('Face not anonymized for {}, frame {}'
+                                 ''.format(ext, i))
             ret, frame = cap.read()
             i += 1
         cap.release()
