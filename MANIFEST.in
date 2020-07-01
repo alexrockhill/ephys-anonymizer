@@ -2,6 +2,7 @@ include *.py
 include *.txt
 include *.xml
 include LICENSE
+include Makefile
 recursive-include video_anonymize *.DS_Store
 recursive-include video_anonymize *.avi
 recursive-include video_anonymize *.mov
