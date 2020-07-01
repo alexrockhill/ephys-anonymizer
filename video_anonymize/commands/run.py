@@ -1,6 +1,5 @@
-"""Command Line Interface for MNE-BIDS."""
-# Authors: Teon Brooks <teon.brooks@gmail.com>
-#          Stefan Appelhoff <stefan.appelhoff@mailbox.org>
+"""Command Line Interface for video anonymization."""
+# Authors: Alex Rockhill <aprockhill@mailbox.org>
 #
 # License: BSD (3-clause)
 import argparse
