@@ -56,7 +56,7 @@ if __name__ == "__main__":
           platforms='any',
           packages=find_packages(),
           entry_points={'console_scripts': [
-              'video_anonymize = video_anonymize.anon:main',
+              'video_anonymize = video_anonymize.commands.run:main',
           ]},
           project_urls={
               'Bug Reports': 'https://github.com/alexrockhill/'

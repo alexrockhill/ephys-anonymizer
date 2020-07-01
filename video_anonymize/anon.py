@@ -7,8 +7,8 @@ Anonymize a video with a black box over any faces.
 #
 # License: BSD (3-clause)
 
+import sys
 import os.path as op
-import argparse
 import cv2
 
 cascades = [cv2.CascadeClassifier('{}{}.xml'.format(
@@ -16,8 +16,8 @@ cascades = [cv2.CascadeClassifier('{}{}.xml'.format(
             ('haarcascade_frontalface_default',
              'haarcascade_profileface',
              'haarcascade_frontalface_alt_tree',
-             'haarcascade_frontalface_alt.xml',
-             'haarcascade_frontalface_alt2.xml')]
+             'haarcascade_frontalface_alt',
+             'haarcascade_frontalface_alt2')]
 
 
 # based on https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials
@@ -34,8 +34,8 @@ def _find_face_and_cover(frame_gray, frame_color, scale, n_cascades):
     return frame_color
 
 
-def video_anonymize(fname, n_cascades=1, scale=10, show=False,
-                    overwrite=False):
+def video_anonymize(fname, out_fname=None, scale=10, n_cascades=1, show=False,
+                    verbose=True, overwrite=False):
     """Anonymize a video.
 
     This function will use the Viola-Jones algorithm to detect faces
@@ -47,12 +47,20 @@ def video_anonymize(fname, n_cascades=1, scale=10, show=False,
     fname : str
         The full file path of the video file. Currently,
         '.mov', '.mp4' and '.avi' are tested.
+    out_fname : str
+        The file name to save the anonymized video out to.
+        Defaults to fname with '-anon.avi' after.
+    scale : int
+        Number of close neighbors to require. Increase if too many
+        false positive faces in videos.
     n_cascades : int
         Number of cascades to use. More cascades, less false negatives
         but also probably more false positives and it takes longer.
     show : bool
         Whether to show the new anonymized video.
         Defaults to False.
+    verbose : bool
+        Set verbose output to True or False.
     overwrite : bool
         Whether to overwrite the existing file.
         Defaults to False.
@@ -65,19 +73,34 @@ def video_anonymize(fname, n_cascades=1, scale=10, show=False,
     if n_cascades > 5:
         raise ValueError('There are only five cascades that I can find')
     basename, ext = op.splitext(fname)
-    out_fname = '{}-anon.avi'.format(basename)
+    if out_fname is None:
+        out_fname = '{}-anon.avi'.format(basename)
+    else:
+        out_basename, out_ext = op.splitext(out_fname)
+        out_fname = out_basename + '.avi'
     if op.isfile(out_fname) and not overwrite:
         raise ValueError('Anonymized file exists, use '
                          '`overwrite=True` to overwrite')
+    if verbose:
+        print('Reading in {}'.format(fname))
     cap = cv2.VideoCapture(fname)
     fps = cap.get(cv2.CAP_PROP_FPS)
-    frame_width = int(cap.get(3))
-    frame_height = int(cap.get(4))
+    if ext == '.mov':
+        frame_width = int(cap.get(4))
+        frame_height = int(cap.get(3))
+    else:
+        frame_width = int(cap.get(3))
+        frame_height = int(cap.get(4))
 
     out = cv2.VideoWriter(out_fname, cv2.VideoWriter_fourcc(*'MJPG'),
                           fps, (frame_width, frame_height))
     ret, frame = cap.read()
+    if verbose:
+        sys.stdout.write('Anonymizing .')  # noqa
     while ret:
+        if ext == '.mov':
+            frame = frame.swapaxes(0, 1)
+            frame = frame[:, ::-1]
         frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         frame = _find_face_and_cover(frame_gray, frame, scale, n_cascades)
         out.write(frame)
@@ -87,28 +110,11 @@ def video_anonymize(fname, n_cascades=1, scale=10, show=False,
             if k == 27:
                 break
         ret, frame = cap.read()
+        if verbose:
+            sys.stdout.write('.')
     cap.release()
     out.release()
-    return out_fname
-
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--filename', type=str, required=True,
-                        help='Name of the video file to anonymize. '
-                        'If there are any errors be sure to enter '
-                        'the full path as the first troubleshooting option')
-    parser.add_argument('--scale', default=10, type=int, required=False,
-                        help='How many neighboring pixels to use, '
-                             'try scaling up or down if faces are not '
-                             'being found')
-    parser.add_argument('--n_cascades', default=1, type=int, required=False,
-                        help='Number of cascades to use, try scaling up '
-                             'if faces are not being found')
-    parser.add_argument('--show', type=bool, required=False,
-                        help='Whether to show the anonymized video')
-    parser.add_argument('--overwrite', type=bool, required=False,
-                        help='Whether to overwrite')
-    args = parser.parse_args()
-    video_anonymize(args.filename, args.show, args.overwrite)
     cv2.destroyAllWindows()
+    if verbose:
+        print('\nVideo saved to {}'.format(out_fname))
+    return out_fname

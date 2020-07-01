@@ -9,6 +9,7 @@ For each supported file format, implement a test.
 
 import os.path as op
 import cv2
+# TO DO: add tmp for anon file saved out
 
 import video_anonymize
 
@@ -24,7 +25,7 @@ with open(op.join(basepath, 'face_data.tsv'), 'r') as fid:
 
 
 def test_video_anonymize():
-    for fname in ('test_vid.mp4', 'test_vid.mp4', 'test_vid.mp4'):
+    for fname in ('test_vid.mp4', 'test_vid.mov', 'test_vid.avi'):
         out_fname = video_anonymize.video_anonymize(
             op.join(basepath, fname), show=False, overwrite=True)
         cap = cv2.VideoCapture(out_fname)
@@ -37,5 +38,4 @@ def test_video_anonymize():
             ret, frame = cap.read()
             i += 1
         cap.release()
-
     cv2.destroyAllWindows()
