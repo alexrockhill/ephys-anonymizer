@@ -32,7 +32,6 @@ def test_video_anonymize():
         i = 0
         ret, frame = cap.read()
         while ret:
-            print(frame[face_data['y'][i], face_data['x'][i]])
             ret, frame = cap.read()
             # > 7 because mov, mp4 are imprecise
             if any(frame[face_data['y'][i], face_data['x'][i]] > 7):
