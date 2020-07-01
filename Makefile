@@ -30,7 +30,7 @@ inplace:
 
 test: inplace check-manifest
 	rm -f .coverage
-	$(PYTESTS) mne_bids
+	$(PYTESTS) video_anonymize
 
 test-doc:
 	$(PYTESTS) --doctest-modules --doctest-ignore-import-errors video_anonymize

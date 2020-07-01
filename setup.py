@@ -56,7 +56,7 @@ if __name__ == "__main__":
           platforms='any',
           packages=find_packages(),
           entry_points={'console_scripts': [
-              'mne_bids = mne_bids.commands.run:main',
+              'video_anonymize = video_anonymize.anon:main',
           ]},
           project_urls={
               'Bug Reports': 'https://github.com/alexrockhill/'

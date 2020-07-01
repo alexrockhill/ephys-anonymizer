@@ -42,7 +42,7 @@ jobs:
       run: pip install --no-deps .
     - name: Run pytest
       run: |
-        python -m pytest . --cov=video_anonymize/tests/ --cov-report=xml --cov-config=setup.cfg --verbose --ignore mne-python
+        python -m pytest . --cov=video_anonymize/tests/ --cov-report=xml --cov-config=setup.cfg --verbose
     - name: Run style & documentation tests
       if: "matrix.os == 'ubuntu-latest'"
       run: make pep
