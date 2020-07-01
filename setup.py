@@ -1,11 +1,11 @@
 #! /usr/bin/env python
-"""Setup video_anonymize."""
+"""Setup anonymizer."""
 import os
 from setuptools import setup, find_packages
 
 # get the version
 version = None
-with open(os.path.join('video_anonymize', '__init__.py'), 'r') as fid:
+with open(os.path.join('anonymizer', '__init__.py'), 'r') as fid:
     for line in (line.strip() for line in fid):
         if line.startswith('__version__'):
             version = line.split('=')[1].strip().strip('\'')
@@ -14,16 +14,16 @@ if version is None:
     raise RuntimeError('Could not determine version')
 
 
-descr = ('video-anonymize: Use the Viola-Jones algorithm to anonymize'
+descr = ('anonymizer: Use the Viola-Jones algorithm to anonymize'
          'faces with a black box')
 
-DISTNAME = 'video-anonymize'
+DISTNAME = 'anonymizer'
 DESCRIPTION = descr
 MAINTAINER = 'Alex Rockhill'
 MAINTAINER_EMAIL = 'aprockhill@mailbox.org'
-URL = 'https://github.com/alexrockhill/video-anonymize/'
+URL = 'https://github.com/alexrockhill/anonymizer/'
 LICENSE = 'BSD (3-clause)'
-DOWNLOAD_URL = 'https://github.com/alexrockhill/video-anonymize.git'
+DOWNLOAD_URL = 'https://github.com/alexrockhill/anonymizer.git'
 VERSION = version
 
 if __name__ == "__main__":
@@ -56,11 +56,11 @@ if __name__ == "__main__":
           platforms='any',
           packages=find_packages(),
           entry_points={'console_scripts': [
-              'video_anonymize = video_anonymize.commands.run:main',
+              'video_anonymize = anonymizer.commands.run:video_anonymize',
           ]},
           project_urls={
-              'Bug Reports': 'https://github.com/alexrockhill/'
-                             'video-anonymize/issues',
-              'Source': 'https://github.com/alexrockhill/video-anonymize',
+              'Bug Reports':
+                  'https://github.com/alexrockhill/anonymizer/issues',
+              'Source': 'https://github.com/alexrockhill/anonymizer',
           },
           )

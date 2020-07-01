@@ -22,15 +22,21 @@ cascades = [cv2.CascadeClassifier('{}{}.xml'.format(
 
 # based on https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials
 # /py_objdetect/py_face_detection/py_face_detection.html
-def _find_face_and_cover(frame_gray, frame_color, scale, n_cascades):
+def _find_face_and_cover(frame_gray, frame_color, scale, verbose):
     """Find faces and cover with black."""
-    # check all cascades to be sure
-    for cascade in cascades[:n_cascades]:
-        # get the locations of the faces
-        faces = cascade.detectMultiScale(frame_gray, 1.1, scale)
-        for (x, y, w, h) in faces:
-            # select the areas where the face was found
-            frame_color[y: y + h, x:x + w] = 0
+    # get the locations of the faces
+    faces = cascades[0].detectMultiScale(frame_gray, 1.1, scale)
+    if len(faces) == 0:
+        if verbose:
+            print('No faces found trying second cascades')
+        faces = cascades[1].detectMultiScale(frame_gray, 1.1, scale)
+        if len(faces) == 0:
+            faces = cascades[2].detectMultiScale(frame_gray, 1.1, scale)
+    elif len(faces) > 1 and verbose:
+        sys.stdout.write('{} faces found in frame'.format(len(faces)))
+    for (x, y, w, h) in faces:
+        # select the areas where the face was found
+        frame_color[y: y + h, x:x + w] = 0
     return frame_color
 
 
@@ -96,7 +102,8 @@ def video_anonymize(fname, out_fname=None, scale=10, n_cascades=1, show=False,
                           fps, (frame_width, frame_height))
     ret, frame = cap.read()
     if verbose:
-        sys.stdout.write('Anonymizing .')  # noqa
+        sys.stdout.write('Anonymizing .')
+        sys.stdout.flush()
     while ret:
         if ext == '.mov':
             frame = frame.swapaxes(0, 1)
@@ -112,6 +119,7 @@ def video_anonymize(fname, out_fname=None, scale=10, n_cascades=1, show=False,
         ret, frame = cap.read()
         if verbose:
             sys.stdout.write('.')
+            sys.stdout.flush()
     cap.release()
     out.release()
     cv2.destroyAllWindows()

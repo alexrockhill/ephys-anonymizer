@@ -10,9 +10,9 @@ For each supported file format, implement a test.
 import os.path as op
 import cv2
 
-import video_anonymize
+import anonymizer
 
-basepath = op.join(op.dirname(video_anonymize.__file__), 'tests', 'data')
+basepath = op.join(op.dirname(anonymizer.__file__), 'tests', 'data')
 
 face_data = dict(x=list(), y=list())
 with open(op.join(basepath, 'face_data.tsv'), 'r') as fid:
@@ -26,7 +26,7 @@ with open(op.join(basepath, 'face_data.tsv'), 'r') as fid:
 def test_video_anonymize():
     for fname in ('test_vid.mp4', 'test_vid.mov', 'test_vid.avi'):
         ext = op.splitext(fname)[-1]
-        out_fname = video_anonymize.video_anonymize(
+        out_fname = anonymizer.video_anonymize(
             op.join(basepath, fname), show=False, overwrite=True)
         cap = cv2.VideoCapture(out_fname)
         i = 0

@@ -3,4 +3,4 @@
 __version__ = '0.1'
 
 
-from video_anonymize.anon import video_anonymize  # noqa
+from anonymizer.anonymizer import video_anonymize  # noqa

@@ -30,14 +30,14 @@ inplace:
 
 test: inplace check-manifest
 	rm -f .coverage
-	$(PYTESTS) video_anonymize
+	$(PYTESTS) anonymizer
 
 test-doc:
-	$(PYTESTS) --doctest-modules --doctest-ignore-import-errors video_anonymize
+	$(PYTESTS) --doctest-modules --doctest-ignore-import-errors anonymizer
 
 test-coverage:
 	rm -rf coverage .coverage
-	$(PYTESTS) --cov=video_anonymize --cov-report html:coverage
+	$(PYTESTS) --cov=anonymizer --cov-report html:coverage
 
 trailing-spaces:
 	find . -name "*.py" | xargs perl -pi -e 's/[ \t]*$$//'
@@ -51,7 +51,7 @@ check-manifest:
 flake:
 	@if command -v flake8 > /dev/null; then \
 		echo "Running flake8"; \
-		flake8 --count video_anonymize video_anonymize/tests; \
+		flake8 --count anonymizer anonymizer/tests; \
 	else \
 		echo "flake8 not found, please install it!"; \
 		exit 1; \

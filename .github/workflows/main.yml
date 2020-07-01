@@ -38,7 +38,7 @@ jobs:
         date
         python --version
         which python
-    - name: Install video_anonymize
+    - name: Install anonymizer
       run: pip install --no-deps .
     - name: Run pytest
       run: |
