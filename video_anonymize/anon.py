@@ -23,7 +23,7 @@ cascades = [cv2.CascadeClassifier('{}{}.xml'.format(
 # based on https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials
 # /py_objdetect/py_face_detection/py_face_detection.html
 def _find_face_and_cover(frame_gray, frame_color, scale, n_cascades):
-    """Find faces and cover with black"""
+    """Find faces and cover with black."""
     # check all cascades to be sure
     for cascade in cascades[:n_cascades]:
         # get the locations of the faces
@@ -36,7 +36,7 @@ def _find_face_and_cover(frame_gray, frame_color, scale, n_cascades):
 
 def video_anonymize(fname, n_cascades=1, scale=10, show=False,
                     overwrite=False):
-    """Anonymize a video
+    """Anonymize a video.
 
     This function will use the Viola-Jones algorithm to detect faces
     in a video and put a black box where the face is. The video is
