@@ -3,5 +3,4 @@
 __version__ = '0.1'
 
 
-from anonymizer.anonymizer import (video_anonymize, raw_anonymize,  # noqa
-								   dcm_convert)  # noqa
+from anonymizer.anonymizer import video_anonymize, raw_anonymize  # noqa
