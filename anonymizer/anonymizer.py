@@ -8,21 +8,14 @@ Anonymize a video with a black box over any faces.
 # License: BSD (3-clause)
 
 import sys
+import os
 import os.path as op
-import cv2
-
-cascades = [cv2.CascadeClassifier('{}{}.xml'.format(
-            cv2.data.haarcascades, name)) for name in
-            ('haarcascade_frontalface_default',
-             'haarcascade_profileface',
-             'haarcascade_frontalface_alt_tree',
-             'haarcascade_frontalface_alt',
-             'haarcascade_frontalface_alt2')]
+import numpy as np
 
 
 # based on https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials
 # /py_objdetect/py_face_detection/py_face_detection.html
-def _find_face_and_cover(frame_gray, frame_color, scale, verbose):
+def _find_face_and_cover(frame_gray, frame_color, cascades, scale, verbose):
     """Find faces and cover with black."""
     # get the locations of the faces
     faces = cascades[0].detectMultiScale(frame_gray, 1.1, scale)
@@ -40,7 +33,7 @@ def _find_face_and_cover(frame_gray, frame_color, scale, verbose):
     return frame_color
 
 
-def video_anonymize(fname, out_fname=None, scale=10, n_cascades=1, show=False,
+def video_anonymize(fname, out_fname=None, scale=10, show=False,
                     verbose=True, overwrite=False):
     """Anonymize a video.
 
@@ -59,9 +52,6 @@ def video_anonymize(fname, out_fname=None, scale=10, n_cascades=1, show=False,
     scale : int
         Number of close neighbors to require. Increase if too many
         false positive faces in videos.
-    n_cascades : int
-        Number of cascades to use. More cascades, less false negatives
-        but also probably more false positives and it takes longer.
     show : bool
         Whether to show the new anonymized video.
         Defaults to False.
@@ -76,8 +66,7 @@ def video_anonymize(fname, out_fname=None, scale=10, n_cascades=1, show=False,
     out_fname : str
         The name of the anonymized video file.
     """
-    if n_cascades > 5:
-        raise ValueError('There are only five cascades that I can find')
+    import cv2
     basename, ext = op.splitext(fname)
     if out_fname is None:
         out_fname = '{}-anon.avi'.format(basename)
@@ -89,6 +78,13 @@ def video_anonymize(fname, out_fname=None, scale=10, n_cascades=1, show=False,
                          '`overwrite=True` to overwrite')
     if verbose:
         print('Reading in {}'.format(fname))
+    cascades = [cv2.CascadeClassifier('{}{}.xml'.format(
+                cv2.data.haarcascades, name)) for name in
+                ('haarcascade_frontalface_default',
+                 'haarcascade_profileface',
+                 'haarcascade_frontalface_alt_tree',
+                 'haarcascade_frontalface_alt',
+                 'haarcascade_frontalface_alt2')]
     cap = cv2.VideoCapture(fname)
     fps = cap.get(cv2.CAP_PROP_FPS)
     if ext == '.mov':
@@ -109,7 +105,8 @@ def video_anonymize(fname, out_fname=None, scale=10, n_cascades=1, show=False,
             frame = frame.swapaxes(0, 1)
             frame = frame[:, ::-1]
         frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        frame = _find_face_and_cover(frame_gray, frame, scale, n_cascades)
+        frame = _find_face_and_cover(frame_gray, frame, cascades, scale,
+                                     verbose)
         out.write(frame)
         if show:
             cv2.imshow('frame', frame)
@@ -125,4 +122,68 @@ def video_anonymize(fname, out_fname=None, scale=10, n_cascades=1, show=False,
     cv2.destroyAllWindows()
     if verbose:
         print('\nVideo saved to {}'.format(out_fname))
+    return out_fname
+
+
+def raw_anonymize(fname, out_fname=None, verbose=True, overwrite=False):
+    """Anonymize a raw file.
+
+    This function uses the mne-python anonymize functions to
+    anonymize raw data or a MATLAB script from Burke Rosen 2019-05-14
+    at USCD to anonymize edf files only (not recommended).
+
+    Parameters
+    ----------
+    fname : str
+        The full file path of the raw file. Currently,
+        '.fif'
+    out_fname : str
+        The file name to save the anonymized raw file out to.
+        Defaults to fname with '-anon-raw.fif' after.
+    verbose : bool
+        Set verbose output to True or False.
+    overwrite : bool
+        Whether to overwrite the existing file.
+        Defaults to False.
+
+    Returns
+    -------
+    out_fname : str
+        The name of the anonymized video file.
+    """
+    import mne
+    basename, ext = op.splitext(fname)
+    if out_fname is None:
+        out_fname = '{}-anon-raw.fif'.format(basename)
+    else:
+        out_basename, out_ext = op.splitext(out_fname)
+        if out_basename[-4:] in ('-raw', '_raw'):
+            out_fname = out_basename + '.fif'
+        else:
+            out_fname = out_basename + '-raw.fif'
+    if op.isfile(out_fname) and not overwrite:
+        raise ValueError('Anonymized file exists, use '
+                         '`overwrite=True` to overwrite')
+    if verbose:
+        print('Reading in {}'.format(fname))
+    if ext == '.fif':
+        raw = mne.io.read_raw_fif(fname, preload=False)
+    elif ext == '.edf':
+        raw = mne.io.read_raw_edf(fname, preload=False)
+    elif ext == 'bdf':
+        raw = mne.io.read_raw_bdf(fname, preload=False)
+    elif ext == '.vhdr':
+        raw = mne.io.read_raw_brainvision(fname, preload=False)
+    elif ext == '.set':
+        raw = mne.io.read_raw_eeglab(fname, preload=False)
+    else:
+        raise ValueError('Extension {} not recognized, options are'
+                         'fif, edf, bdf, vhdr (brainvision) and set '
+                         '(eeglab)'.format(ext))
+    if verbose:
+        print('Anonymizing')
+    raw.anonymize()
+    if verbose:
+        print('Saving to {}'.format(out_fname))
+    raw.save(out_fname, overwrite=overwrite)
     return out_fname

@@ -9,6 +9,7 @@ For each supported file format, implement a test.
 
 import os.path as op
 import cv2
+from mne.utils import _TempDir
 
 import anonymizer
 
@@ -24,10 +25,11 @@ with open(op.join(basepath, 'face_data.tsv'), 'r') as fid:
 
 
 def test_video_anonymize():
+    out_dir = _TempDir()
     for fname in ('test_vid.mp4', 'test_vid.mov', 'test_vid.avi'):
         ext = op.splitext(fname)[-1]
         out_fname = anonymizer.video_anonymize(
-            op.join(basepath, fname), show=False, overwrite=True)
+            op.join(out_dir, fname), show=False, overwrite=True)
         cap = cv2.VideoCapture(out_fname)
         i = 0
         ret, frame = cap.read()

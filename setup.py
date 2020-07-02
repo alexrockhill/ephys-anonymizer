@@ -57,6 +57,7 @@ if __name__ == "__main__":
           packages=find_packages(),
           entry_points={'console_scripts': [
               'video_anonymize = anonymizer.commands.run:video_anonymize',
+              'raw_anonymize = anonymizer.commands.run:raw_anonymize'
           ]},
           project_urls={
               'Bug Reports':

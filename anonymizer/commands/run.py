@@ -31,3 +31,20 @@ def video_anonymize():
     anonymizer.video_anonymize(args.filename, out_fname=args.out_fname,
                                scale=args.scale, show=args.show,
                                verbose=args.verbose, overwrite=args.overwrite)
+
+
+def raw_anonymize():
+    """Run raw_anonymize command."""
+    parser = argparse.ArgumentParser()
+    parser.add_argument('filename', type=str,
+                        help='Name of the raw file to anonymize')
+    parser.add_argument('out_fname', nargs='?', default=None, type=str,
+                        help='Filename to save out to')
+    parser.add_argument('--verbose', default=True, type=bool,
+                        required=False,
+                        help='Set verbose output to True or False.')
+    parser.add_argument('--overwrite', default=False, type=bool,
+                        required=False, help='Whether to overwrite')
+    args = parser.parse_args()
+    anonymizer.raw_anonymize(args.filename, out_fname=args.out_fname,
+                             verbose=args.verbose, overwrite=args.overwrite)
