@@ -14,8 +14,9 @@ if version is None:
     raise RuntimeError('Could not determine version')
 
 
-descr = ('anonymizer: Use the Viola-Jones algorithm to anonymize'
-         'faces with a black box')
+descr = ('anonymizer: Use the Viola-Jones algorithm to anonymize '
+         'faces with a black box and anonymize electrophysiology '
+         'data with mne-python')
 
 DISTNAME = 'anonymizer'
 DESCRIPTION = descr

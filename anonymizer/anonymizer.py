@@ -8,9 +8,7 @@ Anonymize a video with a black box over any faces.
 # License: BSD (3-clause)
 
 import sys
-import os
 import os.path as op
-import numpy as np
 
 
 # based on https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials
