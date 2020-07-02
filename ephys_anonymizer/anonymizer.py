@@ -168,7 +168,7 @@ def raw_anonymize(fname, out_fname=None, verbose=True, overwrite=False):
         raw = mne.io.read_raw_fif(fname, preload=False)
     elif ext == '.edf':
         raw = mne.io.read_raw_edf(fname, preload=False)
-    elif ext == 'bdf':
+    elif ext == '.bdf':
         raw = mne.io.read_raw_bdf(fname, preload=False)
     elif ext == '.vhdr':
         raw = mne.io.read_raw_brainvision(fname, preload=False)
