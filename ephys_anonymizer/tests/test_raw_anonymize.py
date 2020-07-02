@@ -14,9 +14,9 @@ from mne.datasets import testing
 from numpy.testing import assert_array_almost_equal
 from mne.utils import _TempDir
 
-import anonymizer
+import ephys_anonymizer
 
-basepath = op.join(op.dirname(anonymizer.__file__), 'tests', 'data')
+basepath = op.join(op.dirname(ephys_anonymizer.__file__), 'tests', 'data')
 
 data_path = testing.data_path()
 fif_fname = op.join(data_path, 'MEG', 'sample',
@@ -30,7 +30,7 @@ raw_edf = mne.io.read_raw_edf(edf_fname)
 def test_raw_anonymize():
     out_dir = _TempDir()
     out_fname = op.join(out_dir, 'test-anon-raw.fif')
-    _ = anonymizer.raw_anonymize(fif_fname, out_fname=out_fname)
+    _ = ephys_anonymizer.raw_anonymize(fif_fname, out_fname=out_fname)
     raw = mne.io.read_raw_fif(out_fname)
     assert raw.info['meas_date'].year == 2000
     assert raw.info['meas_date'].month == 1
@@ -38,6 +38,6 @@ def test_raw_anonymize():
     assert raw.info['experimenter'] == 'mne_anonymize'
     assert_array_almost_equal(raw.get_data(), raw.get_data(), decimal=10)
 
-    _ = anonymizer.raw_anonymize(edf_fname, out_fname, overwrite=True)
+    _ = ephys_anonymizer.raw_anonymize(edf_fname, out_fname, overwrite=True)
     raw = mne.io.read_raw_fif(out_fname)
     assert_array_almost_equal(raw.get_data(), raw.get_data(), decimal=10)

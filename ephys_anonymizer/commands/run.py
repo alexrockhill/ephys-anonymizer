@@ -4,7 +4,7 @@
 # License: BSD (3-clause)
 import argparse
 
-import anonymizer
+import ephys_anonymizer
 
 
 def video_anonymize():
@@ -28,9 +28,10 @@ def video_anonymize():
     parser.add_argument('--overwrite', default=False, type=bool,
                         required=False, help='Whether to overwrite')
     args = parser.parse_args()
-    anonymizer.video_anonymize(args.filename, out_fname=args.out_fname,
-                               scale=args.scale, show=args.show,
-                               verbose=args.verbose, overwrite=args.overwrite)
+    ephys_anonymizer.video_anonymize(args.filename, out_fname=args.out_fname,
+                                     scale=args.scale, show=args.show,
+                                     verbose=args.verbose,
+                                     overwrite=args.overwrite)
 
 
 def raw_anonymize():
@@ -46,5 +47,6 @@ def raw_anonymize():
     parser.add_argument('--overwrite', default=False, type=bool,
                         required=False, help='Whether to overwrite')
     args = parser.parse_args()
-    anonymizer.raw_anonymize(args.filename, out_fname=args.out_fname,
-                             verbose=args.verbose, overwrite=args.overwrite)
+    ephys_anonymizer.raw_anonymize(args.filename, out_fname=args.out_fname,
+                                   verbose=args.verbose,
+                                   overwrite=args.overwrite)

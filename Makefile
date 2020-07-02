@@ -30,10 +30,10 @@ inplace:
 
 test: inplace check-manifest
 	rm -f .coverage
-	$(PYTESTS) anonymizer
+	$(PYTESTS) ephys_anonymizer
 
 test-doc:
-	$(PYTESTS) --doctest-modules --doctest-ignore-import-errors anonymizer
+	$(PYTESTS) --doctest-modules --doctest-ignore-import-errors ephys_anonymizer
 
 test-coverage:
 	rm -rf coverage .coverage
@@ -51,7 +51,7 @@ check-manifest:
 flake:
 	@if command -v flake8 > /dev/null; then \
 		echo "Running flake8"; \
-		flake8 --count anonymizer anonymizer/tests; \
+		flake8 --count ephys_anonymizer ephys_anonymizer/tests; \
 	else \
 		echo "flake8 not found, please install it!"; \
 		exit 1; \

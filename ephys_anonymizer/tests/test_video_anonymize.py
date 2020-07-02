@@ -11,9 +11,9 @@ import os.path as op
 import cv2
 from mne.utils import _TempDir
 
-import anonymizer
+import ephys_anonymizer
 
-basepath = op.join(op.dirname(anonymizer.__file__), 'tests', 'data')
+basepath = op.join(op.dirname(ephys_anonymizer.__file__), 'tests', 'data')
 
 face_data = dict(x=list(), y=list())
 with open(op.join(basepath, 'face_data.tsv'), 'r') as fid:
@@ -28,7 +28,7 @@ def test_video_anonymize():
     out_dir = _TempDir()
     for fname in ('test_vid.mp4', 'test_vid.mov', 'test_vid.avi'):
         ext = op.splitext(fname)[-1]
-        out_fname = anonymizer.video_anonymize(
+        out_fname = ephys_anonymizer.video_anonymize(
             op.join(out_dir, fname), show=False, overwrite=True)
         cap = cv2.VideoCapture(out_fname)
         i = 0

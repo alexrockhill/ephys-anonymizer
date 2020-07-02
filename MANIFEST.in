@@ -3,9 +3,9 @@ include *.txt
 include *.xml
 include LICENSE
 include Makefile
-recursive-include anonymizer *.DS_Store
-recursive-include anonymizer *.avi
-recursive-include anonymizer *.mov
-recursive-include anonymizer *.mp4
-recursive-include anonymizer *.py
-recursive-include anonymizer *.tsv
+recursive-include ephys_anonymizer *.DS_Store
+recursive-include ephys_anonymizer *.avi
+recursive-include ephys_anonymizer *.mov
+recursive-include ephys_anonymizer *.mp4
+recursive-include ephys_anonymizer *.py
+recursive-include ephys_anonymizer *.tsv
