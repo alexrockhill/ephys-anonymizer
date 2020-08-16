@@ -49,13 +49,13 @@ Here we show some exemplary use cases for EPHYS-ANONYMIZER.
 
   .. container:: sphx-glr-download sphx-glr-download-python
 
-    :download:`Download all examples in Python source code: auto_examples_python.zip <//Users/alexrockhill/projects/ephys-anonymizer/doc/auto_examples/auto_examples_python.zip>`
+    :download:`Download all examples in Python source code: auto_examples_python.zip <//Users/alexrockhill/projects/ephys-anonymizer/docs/auto_examples/auto_examples_python.zip>`
 
 
 
   .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-    :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip <//Users/alexrockhill/projects/ephys-anonymizer/doc/auto_examples/auto_examples_jupyter.zip>`
+    :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip <//Users/alexrockhill/projects/ephys-anonymizer/docs/auto_examples/auto_examples_jupyter.zip>`
 
 
 .. only:: html

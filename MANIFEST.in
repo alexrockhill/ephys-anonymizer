@@ -3,6 +3,22 @@ include *.txt
 include *.xml
 include LICENSE
 include Makefile
+include examples/README.txt
+recursive-include examples *py
+recursive-include docs *rst
+recursive-include docs *py
+recursive-include docs *txt
+recursive-include docs *html
+recursive-include docs *.bat
+recursive-include docs *.db
+recursive-include docs *.examples
+recursive-include docs *.ipynb
+recursive-include docs *.md5
+recursive-include docs *.nojekyll
+recursive-include docs *.pickle
+recursive-include docs *.png
+recursive-include docs *.zip
+recursive-include docs Makefile
 recursive-include ephys_anonymizer *.DS_Store
 recursive-include ephys_anonymizer *.avi
 recursive-include ephys_anonymizer *.mov
