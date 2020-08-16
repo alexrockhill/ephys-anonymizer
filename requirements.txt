@@ -2,6 +2,8 @@ numpy>=1.19.0
 mne>=0.19.1
 opencv-python>=4.2.0.34
 argparse
+sphinx_gallery
+sphinx_bootstrap_theme
 pytest<5.4
 pytest-cov
 pytest-sugar

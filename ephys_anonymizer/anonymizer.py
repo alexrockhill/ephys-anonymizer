@@ -127,14 +127,12 @@ def raw_anonymize(fname, out_fname=None, verbose=True, overwrite=False):
     """Anonymize a raw file.
 
     This function uses the mne-python anonymize functions to
-    anonymize raw data or a MATLAB script from Burke Rosen 2019-05-14
-    at USCD to anonymize edf files only (not recommended).
+    anonymize raw data.
 
     Parameters
     ----------
     fname : str
-        The full file path of the raw file. Currently,
-        '.fif'
+        The full file path of the raw file.
     out_fname : str
         The file name to save the anonymized raw file out to.
         Defaults to fname with '-anon-raw.fif' after.

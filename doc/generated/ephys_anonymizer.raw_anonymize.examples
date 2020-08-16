@@ -1,0 +1,22 @@
+
+
+Examples using ``ephys_anonymizer.raw_anonymize``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="In this example, we anonymize both a video and a fif file with eeg data.">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_anonymize_data_thumb.png
+
+     :ref:`sphx_glr_auto_examples_anonymize_data.py`
+
+.. raw:: html
+
+    </div>
+
+.. only:: not html
+
+ * :ref:`sphx_glr_auto_examples_anonymize_data.py`

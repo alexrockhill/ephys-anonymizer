@@ -8,7 +8,11 @@ import ephys_anonymizer
 
 
 def video_anonymize():
-    """Run video_anonymize command."""
+    """Run video_anonymize command.
+
+    example usage:  $ video_anonymize fname out_fname --scale 10
+                      --show False --verbose True --overwrite True
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument('filename', type=str,
                         help='Name of the video file to anonymize. '
@@ -35,7 +39,11 @@ def video_anonymize():
 
 
 def raw_anonymize():
-    """Run raw_anonymize command."""
+    """Run raw_anonymize command.
+
+    example usage:  $ raw_anonymize fname out_fname
+                      --verbose True --overwrite True
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument('filename', type=str,
                         help='Name of the raw file to anonymize')
