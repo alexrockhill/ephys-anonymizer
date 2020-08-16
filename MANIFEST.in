@@ -12,6 +12,7 @@ recursive-include ephys_anonymizer *.mp4
 recursive-include ephys_anonymizer *.py
 recursive-include ephys_anonymizer *.tsv
 
+exclude .nojekyll
 exclude .github
 exclude Makefile
 exclude LICENSE
