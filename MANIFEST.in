@@ -1,27 +1,23 @@
-include *.py
-include *.txt
 include *.xml
+include *.rst
 include LICENSE
-include Makefile
-include examples/README.txt
-recursive-include examples *py
-recursive-include docs *rst
-recursive-include docs *py
-recursive-include docs *txt
-recursive-include docs *html
-recursive-include docs *.bat
-recursive-include docs *.db
-recursive-include docs *.examples
-recursive-include docs *.ipynb
-recursive-include docs *.md5
-recursive-include docs *.nojekyll
-recursive-include docs *.pickle
-recursive-include docs *.png
-recursive-include docs *.zip
-recursive-include docs Makefile
-recursive-include ephys_anonymizer *.DS_Store
+include ephys_anonymizer/__init__.py
+
+recursive-include examples *.py
+recursive-include examples *.txt
+
 recursive-include ephys_anonymizer *.avi
 recursive-include ephys_anonymizer *.mov
 recursive-include ephys_anonymizer *.mp4
 recursive-include ephys_anonymizer *.py
 recursive-include ephys_anonymizer *.tsv
+
+exclude .github
+exclude Makefile
+exclude LICENSE
+exclude CONTRIBUTING.md
+recursive-exclude ephys_anonymizer *.DS_Store
+recursive-exclude ephys_anonymizer *.pyc
+
+recursive-exclude docs *
+exclude requirements.txt
