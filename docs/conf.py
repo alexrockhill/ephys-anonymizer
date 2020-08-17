@@ -45,7 +45,7 @@ autodoc_default_options = {'inherited-members': None}
 numpydoc_class_members_toctree = False
 numpydoc_attributes_as_param_list = True
 default_role = 'autolink'  # XXX silently allows bad syntax, someone should fix
-html_favicon = os.path.abspath(os.path.join(curdir, 'icon.ico'))
+html_favicon = 'icon.ico'
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
