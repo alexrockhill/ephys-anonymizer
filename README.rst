@@ -9,8 +9,8 @@ INSTALLATION
 ============
 
 Install Python (using Conda https://docs.conda.io/en/latest/ or not https://www.python.org/)
-In a terminal type `pip install ephys-anonymizer`.
-You're ready to go! Try it out using `video_anonymize path/to/my/video`.
+In a terminal type ``pip install ephys-anonymizer``.
+You're ready to go! Try it out using ``video_anonymize path/to/my/video``.
 
 Alex Rockhill
 Eugene, OR 2020
