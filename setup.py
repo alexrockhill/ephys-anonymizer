@@ -67,4 +67,8 @@ if __name__ == "__main__":
                   'https://github.com/alexrockhill/ephys_anonymizer/issues',
               'Source': 'https://github.com/alexrockhill/ephys_anonymizer',
           },
+          install_requires=[
+              'opencv-python',
+              'mne'
+          ]
           )
