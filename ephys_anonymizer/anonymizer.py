@@ -67,10 +67,10 @@ def video_anonymize(fname, out_fname=None, scale=10, show=False,
     import cv2
     basename, ext = op.splitext(fname)
     if out_fname is None:
-        out_fname = '{}-anon.avi'.format(basename)
+        out_fname = '{}-anon.mp4'.format(basename)
     else:
         out_basename, out_ext = op.splitext(out_fname)
-        out_fname = out_basename + '.avi'
+        out_fname = out_basename + '.mp4'
     if op.isfile(out_fname) and not overwrite:
         raise ValueError('Anonymized file exists, use '
                          '`overwrite=True` to overwrite')
@@ -92,7 +92,7 @@ def video_anonymize(fname, out_fname=None, scale=10, show=False,
         frame_width = int(cap.get(3))
         frame_height = int(cap.get(4))
 
-    out = cv2.VideoWriter(out_fname, cv2.VideoWriter_fourcc(*'MJPG'),
+    out = cv2.VideoWriter(out_fname, cv2.VideoWriter_fourcc(*'MP4V'),
                           fps, (frame_width, frame_height))
     ret, frame = cap.read()
     if verbose:
