@@ -24,12 +24,15 @@ with open(op.join(basepath, 'face_data.tsv'), 'r') as fid:
         face_data['y'].append(int(float(y)))
 
 
+seed = (face_data['x'][0], face_data['y'][0])
+
+
 def test_video_anonymize():
     out_dir = _TempDir()
     for fname in ('test_vid.mp4', 'test_vid.mov', 'test_vid.avi'):
         ext = op.splitext(fname)[-1]
         out_fname = ephys_anonymizer.video_anonymize(
-            op.join(out_dir, fname), show=False, overwrite=True)
+            op.join(out_dir, fname), seed=seed, tmin=0, overwrite=True)
         cap = cv2.VideoCapture(out_fname)
         i = 0
         ret, frame = cap.read()
