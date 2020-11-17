@@ -17,7 +17,7 @@ TOLERANCE = 0.1
 
 
 def _click_event(event, x, y, flags, param):
-    """Handles the click event to seed the face finder."""
+    """Handle the click event to seed the face finder."""
     global click_x, click_y
     if event == cv2.EVENT_LBUTTONDOWN:
         click_x, click_y = x, y
