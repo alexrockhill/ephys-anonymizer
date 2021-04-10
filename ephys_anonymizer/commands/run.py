@@ -30,7 +30,7 @@ def video_anonymize():
     parser.add_argument('--seed', default=None, nargs=2, type=int,
                         help='Where the first face is in pixels, if not '
                              'provided, a frame will be shown to click')
-    parser.add_argument('--tmin', default=5, type=float, required=False,
+    parser.add_argument('--tmin', default=0, type=float, required=False,
                         help='The time in seconds to start the anonymized '
                              'video')
     parser.add_argument('--min_size', default=0.03, type=float, required=False,

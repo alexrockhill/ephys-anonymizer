@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-"""Anonymize a video.
+"""Anonymize a video or electrophysiology file.
 
-Anonymize a video with a black box over any faces.
+Anonymize a video with a black box over any faces or remove any
+identiable information from an electrophysiology file.
 """
 # Authors: Alex Rockhill <aprockhill@mailbox.org>
 #
@@ -24,10 +25,11 @@ def _click_event(event, x, y, flags, param):
 
 
 def _seed_face(frame_color):
-    cv2.imshow('seed face selector', frame_color)
-    cv2.setMouseCallback('seed face selector', _click_event)
     global click_x, click_y
     click_x = click_y = None
+    cv2.namedWindow('seed face selector')
+    cv2.setMouseCallback('seed face selector', _click_event)
+    cv2.imshow('seed face selector', frame_color)
     while click_x is None or click_y is None:
         k = cv2.waitKey(20) & 0xFF
         if k == 27:
@@ -54,7 +56,7 @@ def _find_face(frame_gray, cascades, seed, scale, neighbors, verbose=True):
 
 
 def video_anonymize(fname, out_fname=None, scale=1.05, neighbors=1, seed=None,
-                    tmin=5, min_size=0.03, max_size=0.1, overwrite=False,
+                    tmin=0, min_size=0.03, max_size=0.1, overwrite=False,
                     verbose=True):
     """Anonymize a video.
 
@@ -113,6 +115,14 @@ def video_anonymize(fname, out_fname=None, scale=1.05, neighbors=1, seed=None,
          'haarcascade_eye')}
     cap = cv2.VideoCapture(fname)
     fps = cap.get(cv2.CAP_PROP_FPS)
+    frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+
+    ret, frame = cap.read()
+    i = 0
+    while ret and i < min([tmin, (frame_count - 2) / fps]):
+        ret, frame = cap.read()
+        i += 1 / fps
+
     max_buffer_len = np.round(MAX_BUFFER_S * fps)
     if ext == '.mov':
         frame_width = int(cap.get(4))
@@ -125,11 +135,6 @@ def video_anonymize(fname, out_fname=None, scale=1.05, neighbors=1, seed=None,
 
     out = cv2.VideoWriter(out_fname, cv2.VideoWriter_fourcc(*'mp4v'),
                           fps, (frame_width, frame_height))
-    ret, frame = cap.read()
-    i = 0
-    while ret and i < tmin:
-        ret, frame = cap.read()
-        i += 1 / fps
 
     if seed is None:
         if verbose:
